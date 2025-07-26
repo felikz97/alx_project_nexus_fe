@@ -14,7 +14,7 @@ export default function HomePage() {
 
   useEffect(() => {
     axios
-      .get('http://127.0.0.1:8000/api/products/')
+      .get('http://127.0.0.1:8000/api/products')
       .then(res => setProducts(res.data.results || res.data))
       .catch(err => console.error('Product fetch error:', err))
       .finally(() => setLoading(false));
