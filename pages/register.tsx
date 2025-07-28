@@ -27,6 +27,7 @@ export default function RegisterPage() {
       {error && <p className="text-red-600">{error}</p>}
       <form onSubmit={handleSubmit} className="space-y-4">
         <input name="username" onChange={handleChange} value={form.username} placeholder="Username" className="w-full p-2 border rounded" />
+        <input name="Full_Name" onChange={handleChange} value={form.Full_Name} placeholder="Full Name" className="w-full p-2 border rounded" />
         <input name="email" onChange={handleChange} value={form.email} placeholder="Email" className="w-full p-2 border rounded" />
         <input name="password" type="password" onChange={handleChange} value={form.password} placeholder="Password" className="w-full p-2 border rounded" />
         <button type="submit" className="bg-green-700 text-white px-4 py-2 rounded">Register</button>

@@ -18,7 +18,8 @@ export default function ProductFilters({ search, setSearch, categories, selected
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         className="w-full max-w-md p-2 border border-green-300 rounded mb-4"
-        
+        style={{ backgroundColor: 'white', color: '#2f855a' }} // Tailwind colors
+
       />
 
       {/* Category Checkboxes */}
