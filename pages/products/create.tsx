@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import axios from 'axios';
 import api from '@/utils/axiosInstance';
+
 interface Category {
   id: number;
   name: string;
@@ -15,27 +15,29 @@ export default function CreateProductPage() {
     description: '',
     price: '',
     stock: '',
-    Category: '',
-    newCategory: '',
+    category: '',
   });
+
+  const [userId, setUserId] = useState<string | null>(null);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [image, setImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [categories, setCategories] = useState<Category[]>([]);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  // Load categories
+  // Fetch categories and current user
   useEffect(() => {
     api.get('/api/categories/')
       .then(res => setCategories(res.data.results || res.data))
-      .catch(err => {
-        console.error('Failed to load categories:', err);
-        setError('Failed to load categories.');
-      });
+      .catch(() => setError('Failed to load categories.'));
+
+    api.get('/api/users/profile/')
+      .then(res => setUserId(res.data.id?.toString()))
+      .catch(() => setError('Failed to load user profile.'));
   }, []);
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -43,8 +45,7 @@ export default function CreateProductPage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
-    if (!validTypes.includes(file.type)) {
+    if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
       alert('Only JPG, PNG, WEBP allowed');
       return;
     }
@@ -57,65 +58,40 @@ export default function CreateProductPage() {
     setPreviewUrl(URL.createObjectURL(file));
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
     setError('');
     setSuccess(false);
 
-    const token = localStorage.getItem('access');
-    if (!token) {
-      setError('You must be logged in to add a product.');
+    if (!userId) {
+      setError('User not authenticated.');
       setSubmitting(false);
       return;
     }
 
     try {
-      // Determine category
-      let categoryId = form.Category;
-      if (!form.Category && form.newCategory) {
-        const catRes = await api.post(
-          '/api/categories/',
-          { name: form.newCategory }
-        );
-        categoryId = catRes.data.id;
-      }
-
-      if (!categoryId) {
-        setError('Category is required.');
-        setSubmitting(false);
-        return;
-      }
-
-      // Build FormData
       const data = new FormData();
       data.append('name', form.name);
       data.append('description', form.description);
       data.append('price', form.price);
       data.append('stock', form.stock);
-      data.append('category', categoryId);
+      data.append('category', form.category);
+      data.append('seller', userId);
       if (image) data.append('image', image);
 
-      // Debug: Log data
-      for (let [key, value] of data.entries()) {
-        console.log(`${key}: ${value}`);
-      }
-
       await api.post('/api/products/', data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data',
-        },
+        headers: { 'Content-Type': 'multipart/form-data' },
       });
 
-      setForm({ name: '', description: '', price: '', stock: '', Category: '', newCategory: '' });
+      setForm({ name: '', description: '', price: '', stock: '', category: '' });
       setImage(null);
       setPreviewUrl(null);
       setSuccess(true);
-      setTimeout(() => router.push('/'), 2000);
+      setTimeout(() => router.push('/'), 1500);
     } catch (err: any) {
       console.error('Create error:', err.response?.data || err.message);
-      setError(err.response?.data?.detail || 'Failed to create product.');
+      setError(err.response?.data?.error || 'Failed to create product.');
     } finally {
       setSubmitting(false);
     }
@@ -132,16 +108,14 @@ export default function CreateProductPage() {
         <input name="name" value={form.name} onChange={handleChange} placeholder="Product Name" className="w-full p-2 border rounded" required />
         <textarea name="description" value={form.description} onChange={handleChange} placeholder="Description" className="w-full p-2 border rounded" required />
         <input name="price" value={form.price} onChange={handleChange} placeholder="Price" type="number" className="w-full p-2 border rounded" required />
-        <input name="stock" value={form.stock} onChange={handleChange} placeholder="Stock Quantity" type="number" className="w-full p-2 border rounded" required />
+        <input name="stock" value={form.stock} onChange={handleChange} placeholder="Stock" type="number" className="w-full p-2 border rounded" required />
 
-        {/* Category Selection and Creation */}
-        <select name="category" value={form.Category} onChange={handleChange} className="w-full p-2 border rounded">
-          <option value="">Select Existing Category</option>
+        <select name="category" value={form.category} onChange={handleChange} className="w-full p-2 border rounded" required>
+          <option value="">Select Category</option>
           {categories.map(cat => (
-            <option key={cat.id} value={cat.id}>{cat.name}</option>
+            <option key={cat.id} value={String(cat.id)}>{cat.name}</option>
           ))}
         </select>
-        <input name="newCategory" value={form.newCategory} onChange={handleChange} placeholder="Or add new category" className="w-full p-2 border rounded" />
 
         <input type="file" onChange={handleFileChange} className="w-full p-2 border rounded" />
         {previewUrl && (
@@ -150,7 +124,7 @@ export default function CreateProductPage() {
           </div>
         )}
 
-        <button type="submit" className="bg-green-700 text-white px-4 py-2 rounded w-full" disabled={submitting}>
+        <button type="submit" disabled={submitting} className="bg-green-700 text-white px-4 py-2 rounded w-full">
           {submitting ? 'Submitting...' : 'Create Product'}
         </button>
       </form>

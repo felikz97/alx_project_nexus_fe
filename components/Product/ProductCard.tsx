@@ -41,7 +41,7 @@ export default function ProductCard({ product }: { product: Product }) {
           <div className="flex flex-col justify-between flex-grow">
             <h3 className="text-lg font-semibold text-green-800">{product.name}</h3>
             <p className="text-green-700 text-sm line-clamp-2">{product.description}</p>
-            <p className="text-green-900 font-bold">${product.price}</p>
+            <p className="text-green-900 font-bold">Ksh {product.price}</p>
           </div>
         </div>
     </a>

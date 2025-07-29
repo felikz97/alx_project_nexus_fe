@@ -1,99 +1,121 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useRouter } from 'next/router';
+import api from '@/utils/axiosInstance';
 
 export default function ProfilePage() {
   const router = useRouter();
-  const [form, setForm] = useState({ username: '', email: '', is_seller: false });
-  const [loading, setLoading] = useState(true);
+
+  const [form, setForm] = useState({
+    username: '',
+    email: '',
+    address: '',
+    mobile: '',
+    is_seller: false,
+    image: '',
+  });
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const [message, setMessage] = useState('');
+  const [preview, setPreview] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
-useEffect(() => {
-  const fetchProfile = async () => {
-    const token = localStorage.getItem('access');
-    if (!token) {
-      router.push('/login');
-      return;
-    }
-
-    try {
-      const res = await axios.get('http://localhost:8000/api/users/profile/', {
-        headers: { Authorization: `Bearer ${token}` },
+  useEffect(() => {
+    api.get('/api/users/profile/')
+      .then(res => {
+        setForm(res.data);
+        if (res.data.image) setPreview(res.data.image);
+        setLoading(false);
+      })
+      .catch(() => {
+        // Not authenticated or failed
+        router.push('/login');  // ⬅️ redirect to login
       });
-      setForm(res.data);
-    } catch {
-      setMessage('Failed to load profile.');
-    } finally {
-      setLoading(false);
-    }
-  };
+  }, []);
 
-  fetchProfile();
-}, []);
+  if (loading) return <p className="p-6">Loading...</p>;
 
   const handleChange = (e: any) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const handleImage = (e: any) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImageFile(file);
+      setPreview(URL.createObjectURL(file));
+    }
+  };
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    const token = localStorage.getItem('access');
+    const data = new FormData();
+    Object.entries(form).forEach(([k, v]) => data.append(k, typeof v === 'boolean' ? String(v) : v));
+    if (imageFile) data.append('image', imageFile);
 
     try {
-      await axios.put('http://localhost:8000/api/users/profile/', form, {
-        headers: { Authorization: `Bearer ${token}` },
+      const res = await api.put('/api/users/profile/', data, {
+        headers: { 'Content-Type': 'multipart/form-data' },
       });
-      setMessage(' Profile updated!');
+      setForm(res.data);
+      setMessage(' Profile updated');
     } catch {
       setMessage(' Failed to update profile.');
     }
   };
 
   const becomeSeller = () => {
-    setForm(prev => ({ ...prev, is_seller: true }));
-    setMessage(' You are now a seller!');
+    api.put('/api/users/profile/', { is_seller: true })
+      .then(res => setForm(res.data))
+      .catch(() => setMessage('Failed to become seller.'));
   };
 
   return (
-    <div className="max-w-xl mx-auto mt-10 p-6 bg-white shadow rounded">
-      <h1 className="text-2xl font-bold text-green-800 mb-4">Your Profile</h1>
+    <div className="max-w-2xl mx-auto mt-10 p-6 bg-white shadow rounded">
+      <h1 className="text-2xl font-bold text-green-800 mb-6">Your Profile</h1>
+
       {message && <p className="mb-4 text-green-700">{message}</p>}
 
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            name="username"
-            value={form.username}
-            onChange={handleChange}
-            placeholder="Username"
-            className="w-full p-2 border rounded"
-          />
-          <input
-            name="email"
-            value={form.email}
-            onChange={handleChange}
-            placeholder="Email"
-            className="w-full p-2 border rounded"
-          />
+      <form onSubmit={handleSubmit} className="grid grid-cols-3 gap-4 items-center text-sm">
+        <label className="text-right">Username:</label>
+        <input name="username" value={form.username} onChange={handleChange} className="col-span-2 p-2 border rounded" />
+
+        <label className="text-right">Email:</label>
+        <input name="email" value={form.email} onChange={handleChange} className="col-span-2 p-2 border rounded" />
+
+        <label className="text-right">Mobile:</label>
+        <input name="mobile" value={form.mobile || ''} onChange={handleChange} className="col-span-2 p-2 border rounded" />
+
+        <label className="text-right">Address:</label>
+        <input name="address" value={form.address || ''} onChange={handleChange} className="col-span-2 p-2 border rounded" />
+
+        <label className="text-right">Image:</label>
+        <input type="file" onChange={handleImage} className="col-span-2 p-2 border rounded" />
+
+        {preview && (
+          <>
+            <label className="text-right">Preview:</label>
+            <img src={preview} alt="Preview" className="w-20 h-20 rounded border col-span-2" />
+          </>
+        )}
+
+        <div className="col-span-3 mt-4">
+          {!form.is_seller && (
+            <button
+              type="button"
+              onClick={becomeSeller}
+              className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded mr-4"
+            >
+              Become a Seller
+            </button>
+          )}
 
           <button
-            type="button"
-            onClick={becomeSeller}
-            className={`px-4 py-2 rounded text-white ${
-              form.is_seller ? 'bg-gray-500 cursor-default' : 'bg-yellow-500 hover:bg-yellow-600'
-            }`}
-            disabled={form.is_seller}
+            type="submit"
+            className="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded"
           >
-            {form.is_seller ? ' You are a Seller' : 'Become a Seller'}
-          </button>
-
-          <button type="submit" className="bg-green-700 text-white px-4 py-2 rounded block w-full mt-4">
             Save Profile
           </button>
-        </form>
-      )}
+        </div>
+      </form>
     </div>
   );
 }
