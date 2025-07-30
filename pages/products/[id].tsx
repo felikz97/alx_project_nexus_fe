@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Image from 'next/image';
-
+import AddToCartButton from '@/components/common/AddToCartButton';
 type Product = {
     id: number;
     name: string;
@@ -50,11 +50,9 @@ export default function ProductDetailPage() {
         <div className="flex flex-col justify-between md:w-1/2">
             <h1 className="text-3xl font-bold text-green-800 mb-2">{product.name}</h1>
             <p className="text-green-700 mb-4">{product.description}</p>
-            <p className="text-2xl font-bold text-green-900">${product.price}</p>
+            <p className="text-2xl font-bold text-green-900">Ksh {product.price}</p>
 
-            <button className="mt-6 bg-green-700 text-white px-4 py-2 rounded shadow hover:bg-green-800 transition">
-            Add to Cart
-            </button>
+            <AddToCartButton productId={product.id} />
         </div>
         </div>
     );
