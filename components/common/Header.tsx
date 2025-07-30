@@ -1,23 +1,27 @@
 import { useState } from 'react';
 import useAuth from '@/hooks/useAuth';
 import Link from 'next/link';
-
-
+import { useCart } from '@/components/cart/CartContext';
 
 export default function Header() {
   const { isAuthenticated, logout } = useAuth();
   const [showMenu, setShowMenu] = useState(false);
-
-  // Toggle menu visibility
-  const toggleMenu = () => setShowMenu(!showMenu);
+  const { cartCount } = useCart();
 
   return (
     <header className="bg-green-800 text-yellow-50 shadow-md">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="text-2xl font-bold cursor-pointer">🛒 E-Shop</Link>
+        <Link href="/" className="text-2xl font-bold cursor-pointer">🛒 E-Shop Nexus</Link>
 
-        {/* Search */}
+        {/* Navigation Links */}
+        <div className="flex items-center space-x-6">
+          <Link href="/" className="hover:underline">Home</Link>
+          <Link href="/products" className="hover:underline">Products</Link>
+          <Link href="/about" className="hover:underline">About Us</Link>
+        </div>
+
+        {/* Search Bar */}
         <div className="flex-1 mx-6">
           <input
             type="text"
@@ -26,15 +30,22 @@ export default function Header() {
           />
         </div>
 
-        {/* Right side nav */}
+        {/* Right-side controls */}
         <div className="flex items-center space-x-6">
-          <Link href="/cart" className="hover:underline">🛒 Cart</Link>
+          {/* Cart with badge */}
+          <Link href="/cart" className="relative hover:underline">
+            🛒 Cart
+            {cartCount > 0 && (
+              <span className="absolute -top-2 -right-3 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                {cartCount}
+              </span>
+            )}
+          </Link>
 
+          {/* Auth controls */}
           {isAuthenticated ? (
             <div className="relative">
-              <button onClick={() => setShowMenu(!showMenu)} className="text-xl">
-                👤v
-              </button>
+              <button onClick={() => setShowMenu(!showMenu)} className="text-xl">👤v</button>
               {showMenu && (
                 <div className="absolute right-0 mt-2 w-48 bg-white text-green-900 shadow-lg rounded z-50">
                   <Link href="/products/create" className="block px-4 py-2 hover:bg-green-100">➕ Add Product</Link>

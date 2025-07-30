@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import Image from 'next/image';
+import DeleteCartItemButton from '@/components/common/DeleteCartItemButton';
 
 interface Product {
   id: number;
@@ -21,39 +22,33 @@ export default function CartPage() {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
+  const fetchCart = async () => {
+    const token = localStorage.getItem('access');
+    if (!token) {
+      router.push('/login');
+      return;
+    }
+
+    try {
+      const res = await axios.get('http://localhost:8000/api/cart/items/', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setCartItems(res.data);
+    } catch (err) {
+      console.error('Cart error:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchCart = async () => {
-      const token = localStorage.getItem('access');
-      if (!token) {
-        router.push('/login');
-        return;
-      }
-
-      try {
-        const res = await axios.get('http://localhost:8000/api/cart/items/', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setCartItems(res.data);
-      } catch (err) {
-        console.error('Cart error:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchCart();
   }, [router]);
 
-  const totalQuantity = cartItems.reduce(
-    (sum, item) => sum + item.quantity,
-    0
-  );
-  const total = cartItems.reduce(
-    (sum, item) => sum + parseFloat(item.product.price) * item.quantity,
-    0
-  );
+  const totalQuantity = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  const total = cartItems.reduce((sum, item) => sum + parseFloat(item.product.price) * item.quantity, 0);
 
   return (
     <div className="max-w-4xl mx-auto p-6">
@@ -77,7 +72,7 @@ export default function CartPage() {
               return (
                 <div
                   key={item.id}
-                  className="flex gap-4 bg-white p-4 shadow rounded-md"
+                  className="flex gap-4 bg-white p-4 shadow rounded-md items-center"
                 >
                   <div className="w-24 h-24 relative">
                     {product.image ? (
@@ -94,7 +89,8 @@ export default function CartPage() {
                       </div>
                     )}
                   </div>
-                  <div className="flex flex-col justify-between">
+
+                  <div className="flex-1 flex flex-col justify-between">
                     <p className="font-semibold text-green-800">{product.name}</p>
                     <p className="text-green-700">Quantity: {quantity}</p>
                     <p className="text-green-600">Price: Ksh {parseFloat(product.price).toFixed(2)}</p>
@@ -102,6 +98,8 @@ export default function CartPage() {
                       Subtotal: Ksh {itemTotal.toFixed(2)}
                     </p>
                   </div>
+
+                  <DeleteCartItemButton itemId={item.id} onSuccess={fetchCart} />
                 </div>
               );
             })}
