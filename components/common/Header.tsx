@@ -10,15 +10,15 @@ export default function Header() {
 
   return (
     <header className="bg-green-800 text-yellow-50 shadow-md">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-6 py-4 flex items-left justify-between">
         {/* Logo */}
-        <Link href="/" className="text-2xl font-bold cursor-pointer">🛒 E-Shop Nexus</Link>
+        <Link href="/" className="text-2xl font-bold cursor-pointer align-left">🛒 E-Shop Nexus</Link>
 
         {/* Navigation Links */}
         <div className="flex items-center space-x-6">
-          <Link href="/" className="hover:underline">Home</Link>
-          <Link href="/products" className="hover:underline">Products</Link>
-          <Link href="/about" className="hover:underline">About Us</Link>
+          <Link href="/" className="hover:bg-yellow-100 px-3 py-2 rounded hover:text-green-600">Home</Link>
+          <Link href="/products" className="hover:bg-yellow-100 px-3 py-2 rounded hover:text-green-600 ">Products</Link>
+          <Link href="/about" className="hover:bg-yellow-100 px-3 py-2 rounded hover:text-green-600" >About Us</Link>
         </div>
 
         {/* Search Bar */}
@@ -48,6 +48,9 @@ export default function Header() {
               <button onClick={() => setShowMenu(!showMenu)} className="text-xl">👤v</button>
               {showMenu && (
                 <div className="absolute right-0 mt-2 w-48 bg-white text-green-900 shadow-lg rounded z-50">
+                  <Link href="/orders" className="block px-4 py-2 hover:bg-green-100">
+                    📦 My Orders
+                  </Link>
                   <Link href="/products/create" className="block px-4 py-2 hover:bg-green-100">➕ Add Product</Link>
                   <Link href="/profile" className="block px-4 py-2 hover:bg-green-100">🛠 Update Profile</Link>
                   <button

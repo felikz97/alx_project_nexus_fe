@@ -3,6 +3,8 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import Image from 'next/image';
 import DeleteCartItemButton from '@/components/common/DeleteCartItemButton';
+import { useCart } from '@/components/cart/CartContext';
+import PlaceOrderButton from '@/components/common/PlaceOrderButton';
 
 interface Product {
   id: number;
@@ -100,15 +102,22 @@ export default function CartPage() {
                   </div>
 
                   <DeleteCartItemButton itemId={item.id} onSuccess={fetchCart} />
+                  <div className="border-t border-green-200 mt-4 pt-4">
+                    <PlaceOrderButton />
+                  </div>
                 </div>
               );
             })}
           </div>
-
+          {/* cart summary */}
           <div className="text-right font-bold text-xl text-green-900 mt-8">
             <p className="text-green-700 font-medium">Total Items: {totalQuantity}</p>
             Total: Ksh {total.toFixed(2)}
           </div>
+          <PlaceOrderButton />
+          <p className="text-sm text-gray-500 mt-4">
+            Note: Prices are subject to change based on availability.
+          </p>
         </>
       )}
     </div>

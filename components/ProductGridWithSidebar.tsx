@@ -12,6 +12,7 @@ type Product = {
   description: string;
   price: string;
   image?: string;
+  
 };
 
 export default function ProductGridWithSidebar() {

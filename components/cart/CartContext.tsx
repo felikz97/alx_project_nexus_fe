@@ -3,7 +3,7 @@ import axios from 'axios';
 
 interface CartContextType {
   cartCount: number;
-  refreshCart: () => void;
+  updateCart: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -35,7 +35,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <CartContext.Provider value={{ cartCount, refreshCart: fetchCartCount }}>
+    <CartContext.Provider value={{ cartCount, updateCart: fetchCartCount }}>
       {children}
     </CartContext.Provider>
   );
