@@ -45,7 +45,7 @@ export default function Header() {
           {/* Auth controls */}
           {isAuthenticated ? (
             <div className="relative">
-              <button onClick={() => setShowMenu(!showMenu)} className="text-xl">👤v</button>
+              <button onClick={() => setShowMenu(!showMenu)} className="fa-solid fa-user text-xl"  > User </button>
               {showMenu && (
                 <div className="absolute right-0 mt-2 w-48 bg-white text-green-900 shadow-lg rounded z-50">
                   <Link href="/orders" className="block px-4 py-2 hover:bg-green-100">

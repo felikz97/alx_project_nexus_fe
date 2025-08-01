@@ -17,7 +17,7 @@ const PAYMENT_METHODS = [
   },
   {
     name: 'Visa Card',
-    route: 'card',
+    route: 'vcard',
     color: 'bg-gray-800',
     image: '/assets/payments/Visa_logo.png',
   },

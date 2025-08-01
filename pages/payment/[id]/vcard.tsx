@@ -40,7 +40,7 @@ export default function CardPayment() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setMessage('✅ Card payment submitted (simulated).');
+    setMessage('✅ Payment submitted (simulated). You can now mark this order as paid.');
   };
 
   if (loading) return <p className="p-6">Loading...</p>;
@@ -50,7 +50,14 @@ export default function CardPayment() {
 
   return (
     <div className="max-w-xl mx-auto p-6 space-y-4">
-      <h1 className="text-2xl font-bold text-gray-800">Visa/MasterCard Payment</h1>
+      <button
+        onClick={() => window.history.back()}
+        className="text-blue-600 hover:underline"
+      >
+        ← Back to Payment Methods
+      </button>
+
+      <h1 className="text-2xl font-bold text-gray-800">Visa / MasterCard Payment</h1>
 
       <div className="text-gray-700">
         <p>🧾 <strong>Order:</strong> #{order.id}</p>
@@ -58,7 +65,7 @@ export default function CardPayment() {
         <p>💰 <strong>Total:</strong> Ksh {order.total_price}</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-3">
+      <form onSubmit={handleSubmit} className="space-y-3 mt-4">
         <input
           type="text"
           placeholder="Card number"
@@ -94,7 +101,7 @@ export default function CardPayment() {
         </button>
       </form>
 
-      {message && <p className="text-sm text-gray-700 mt-2">{message}</p>}
+      {message && <p className="text-sm text-green-700 mt-2">{message}</p>}
     </div>
   );
 }
