@@ -70,6 +70,12 @@ export default function ProfilePage() {
 
   return (
     <div className="max-w-2xl mx-auto mt-10 p-6 bg-white shadow rounded">
+      <button
+        onClick={() => router.back()}
+        className="text-blue-600 hover:underline mb-2"
+      >
+        ← Move Back
+      </button>
       <h1 className="text-2xl font-bold text-green-800 mb-6">Your Profile</h1>
 
       {message && <p className="mb-4 text-green-700">{message}</p>}

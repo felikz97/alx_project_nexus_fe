@@ -31,6 +31,12 @@ export default function PaymentPage() {
 
   return (
     <div className="max-w-xl mx-auto p-6">
+      <button
+        onClick={() => window.history.back()}
+        className="text-blue-600 hover:underline mb-2"
+      >
+        ← Move Back
+      </button>
       <h1 className="text-2xl font-bold text-green-800 mb-6">
         💳 Choose Payment Method
       </h1>

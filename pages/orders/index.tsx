@@ -64,8 +64,18 @@ export default function OrdersPage() {
     (order) => order.status === STATUS_MAP[activeStatus]
   );
 
+  const statusCounts = Object.entries(STATUS_MAP).reduce((acc, [tabKey, backendStatus]) => {
+  acc[tabKey] = orders.filter((order) => order.status === backendStatus).length;
+  return acc;
+  }, {} as Record<string, number>);
   return (
     <div className="max-w-5xl mx-auto p-6">
+      <button
+        onClick={() => router.back()}
+        className="text-blue-600 hover:underline mb-2"
+      >
+        ← Move Back
+      </button>
       <h1 className="text-2xl font-bold text-green-800 mb-4">📦 Your Orders</h1>
 
       <div className="flex gap-4 mb-6">
@@ -73,13 +83,16 @@ export default function OrdersPage() {
           <button
             key={status}
             onClick={() => setActiveStatus(status)}
-            className={`px-4 py-2 rounded ${
+            className={`px-4 py-2 rounded flex items-center gap-1 ${
               activeStatus === status
                 ? 'bg-green-700 text-white'
                 : 'bg-green-100 text-green-700'
             }`}
           >
-            {status.charAt(0).toUpperCase() + status.slice(1)}
+            <span>{status.charAt(0).toUpperCase() + status.slice(1)}</span>
+            <span className="bg-white text-green-700 rounded-full text-xs px-2">
+              {statusCounts[status.replace(' ', '_')] || 0}
+            </span>
           </button>
         ))}
       </div>

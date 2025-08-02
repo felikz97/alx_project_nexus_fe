@@ -47,20 +47,28 @@ export default function Header() {
             <div className="relative">
               <button onClick={() => setShowMenu(!showMenu)} className="fa-solid fa-user text-xl"  > User </button>
               {showMenu && (
-                <div className="absolute right-0 mt-2 w-48 bg-white text-green-900 shadow-lg rounded z-50">
-                  <Link href="/orders" className="block px-4 py-2 hover:bg-green-100">
-                    📦 My Orders
-                  </Link>
-                  <Link href="/products/create" className="block px-4 py-2 hover:bg-green-100">➕ Add Product</Link>
-                  <Link href="/profile" className="block px-4 py-2 hover:bg-green-100">🛠 Update Profile</Link>
-                  <button
-                    onClick={logout}
-                    className="block w-full text-left px-4 py-2 hover:bg-green-100"
-                  >
-                    🚪 Logout
-                  </button>
-                </div>
-              )}
+                  <div className="absolute right-0 mt-2 w-48 bg-white text-green-900 shadow-lg rounded z-50">
+                    <Link href="/orders" className="block px-4 py-2 hover:bg-green-100">
+                      📦 My Orders
+                    </Link>
+                    <Link href="/products/create" className="block px-4 py-2 hover:bg-green-100">
+                      ➕ Add Product
+                    </Link>
+                    <Link href="/products/mine" className="block px-4 py-2 hover:bg-green-100">
+                      📂 My Catalogs
+                    </Link>
+                    <Link href="/profile" className="block px-4 py-2 hover:bg-green-100">
+                      🛠 Update Profile
+                    </Link>
+                    <button
+                      onClick={logout}
+                      className="block w-full text-left px-4 py-2 hover:bg-green-100"
+                    >
+                      🚪 Logout
+                    </button>
+                  </div>
+                )}
+
             </div>
           ) : (
             <>

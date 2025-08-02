@@ -41,7 +41,15 @@ export default function ProductCard({ product }: { product: Product }) {
           <div className="flex flex-col justify-between flex-grow">
             <h3 className="text-lg font-semibold text-green-800">{product.name}</h3>
             <p className="text-green-700 text-sm line-clamp-2">{product.description}</p>
-            <p className="text-green-900 font-bold">Ksh {product.price}</p>
+            <div className="flex items-center justify-between mt-1">
+              <p className="text-green-900 font-bold">Ksh {product.price}</p>
+              <Link href={`/products/${product.id}`}>
+                <a className="bg-green-300 text-green-800 text-sm px-3 py-1 rounded hover:bg-green-700">
+                  View
+                </a>
+              </Link>
+            </div>
+            
           </div>
         </div>
     </a>
