@@ -5,7 +5,7 @@ import { RootState } from '@/components/store/store/store';
 
 import ProductSidebar from '@/components/Product/ProductSidebar';
 import ProductCard from '@/components/Product/ProductCard';
-
+import Spinner from './common/spinner';
 type Product = {
   id: number;
   name: string;
@@ -48,7 +48,7 @@ return (
 
     {/* Product Grid below */}
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-      {loading ? (
+      {loading && <Spinner/> ? (
         <p className="text-green-700">Loading...</p>
       ) : products.length ? (
         products.map(product => (

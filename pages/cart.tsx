@@ -53,7 +53,7 @@ export default function CartPage() {
   const total = cartItems.reduce((sum, item) => sum + parseFloat(item.product.price) * item.quantity, 0);
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
+    <div className="max-w-4xl mx-auto p-4 sm:p-6">
       <h1 className="text-2xl font-bold text-green-800 mb-6">🛒 Your Cart</h1>
 
       {loading ? (
@@ -62,7 +62,7 @@ export default function CartPage() {
         <p className="text-green-700">Your cart is empty.</p>
       ) : (
         <>
-          <div className="space-y-4">
+          <div className="space-y-6">
             {cartItems.map((item) => {
               const { product, quantity } = item;
               const imageUrl = product.image?.startsWith('http')
@@ -74,9 +74,10 @@ export default function CartPage() {
               return (
                 <div
                   key={item.id}
-                  className="flex gap-4 bg-white p-4 shadow rounded-md items-center"
+                  className="flex flex-col sm:flex-row gap-4 bg-white p-4 shadow rounded-md"
                 >
-                  <div className="w-24 h-24 relative">
+                  {/* Image */}
+                  <div className="w-full sm:w-24 h-48 sm:h-24 relative">
                     {product.image ? (
                       <Image
                         src={imageUrl}
@@ -92,32 +93,40 @@ export default function CartPage() {
                     )}
                   </div>
 
-                  <div className="flex-1 flex flex-col justify-between">
+                  {/* Info + Controls */}
+                  <div className="flex-1 flex flex-col justify-between w-full">
                     <p className="font-semibold text-green-800">{product.name}</p>
                     <p className="text-green-700">Quantity: {quantity}</p>
                     <p className="text-green-600">Price: Ksh {parseFloat(product.price).toFixed(2)}</p>
                     <p className="text-green-900 font-bold">
                       Subtotal: Ksh {itemTotal.toFixed(2)}
                     </p>
-                  </div>
 
-                  <DeleteCartItemButton itemId={item.id} onSuccess={fetchCart} />
-                  <div className="border-t border-green-200 mt-4 pt-4">
-                    <PlaceOrderButton />
+                    <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
+                      <DeleteCartItemButton itemId={item.id} onSuccess={fetchCart} />
+                      <PlaceOrderButton />
+                    </div>
                   </div>
                 </div>
               );
             })}
           </div>
-          {/* cart summary */}
-          <div className="text-right font-bold text-xl text-green-900 mt-8">
-            <p className="text-green-700 font-medium">Total Items: {totalQuantity}</p>
-            Total: Ksh {total.toFixed(2)}
+
+          {/* Cart Summary */}
+          <div className="mt-8 text-green-900">
+            <div className="text-right font-bold text-xl">
+              <p className="text-green-700 font-medium">Total Items: {totalQuantity}</p>
+              Total: Ksh {total.toFixed(2)}
+            </div>
+
+            <div className="mt-4 flex justify-end">
+              <PlaceOrderButton />
+            </div>
+
+            <p className="text-sm text-gray-500 mt-4 text-right">
+              Note: Prices are subject to change based on availability.
+            </p>
           </div>
-          <PlaceOrderButton />
-          <p className="text-sm text-gray-500 mt-4">
-            Note: Prices are subject to change based on availability.
-          </p>
         </>
       )}
     </div>
