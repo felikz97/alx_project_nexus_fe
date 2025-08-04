@@ -23,8 +23,8 @@ export default function ProfilePage() {
   return (
     <div className="max-w-2xl mx-auto px-4 py-10">
       <button
-        onClick={() => router.back()}
-        className="text-blue-600 hover:underline mb-4"
+        onClick={() => window.history.back()}
+        className="text-green-800 hover:bg-yellow-200 mb-2 bg-yellow-100"
       >
         ← Move Back
       </button>

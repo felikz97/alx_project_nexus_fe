@@ -130,6 +130,7 @@ export default function EditProductPage() {
 
   return (
     <div className="max-w-xl mx-auto mt-10 p-6 bg-white shadow rounded">
+    
       <h1 className="text-2xl font-bold mb-4 text-green-800">Edit Product</h1>
       {message && <p className="mb-4 text-sm text-green-700">{message}</p>}
 

@@ -45,6 +45,7 @@ export default function ProductDetailPage() {
 
   return (
     <div className="max-w-4xl mx-auto p-6 flex flex-col md:flex-row gap-6">
+      
       {/* Product Image */}
       <div className="relative w-full md:w-1/2 h-80">
         {product.image ? (

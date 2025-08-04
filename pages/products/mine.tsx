@@ -42,6 +42,12 @@ export default function MyCatalogsPage() {
 
   return (
     <div className="max-w-5xl mx-auto p-6">
+      <button
+        onClick={() => window.history.back()}
+        className="text-green-800 hover:bg-yellow-200 mb-2 bg-yellow-100"
+      >
+        ← Move Back
+      </button>
       <h1 className="text-2xl font-bold text-green-800 mb-4">📦 My Product Catalogs</h1>
 
       {loading && <p className="text-green-600">Loading...</p>}
@@ -58,6 +64,7 @@ export default function MyCatalogsPage() {
 
           return (
             <div key={product.id} className="bg-white p-4 shadow rounded border">
+              
               <div className="flex items-center gap-4">
                 <div className="w-24 h-24 bg-gray-100 rounded overflow-hidden">
                   {product.image ? (

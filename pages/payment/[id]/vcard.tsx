@@ -52,9 +52,9 @@ export default function CardPayment() {
     <div className="max-w-xl mx-auto p-6 space-y-4">
       <button
         onClick={() => window.history.back()}
-        className="text-blue-600 hover:underline"
+        className="text-green-800 hover:bg-yellow-200 mb-2 bg-yellow-100"
       >
-        ← Back to Payment Methods
+        ← Move Back
       </button>
 
       <h1 className="text-2xl font-bold text-gray-800">Visa / MasterCard Payment</h1>

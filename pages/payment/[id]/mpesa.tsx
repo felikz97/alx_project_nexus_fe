@@ -81,9 +81,9 @@ export default function MPesaPayment() {
     <div className="max-w-xl mx-auto p-6 space-y-4">
       <button
         onClick={() => window.history.back()}
-        className="text-blue-600 hover:underline mb-2"
+        className="text-green-800 hover:bg-yellow-200 mb-2 bg-yellow-100"
       >
-        ← Back to Payment Methods
+        ← Move Back
       </button>
       <h1 className="text-2xl font-bold text-green-700">M-Pesa Payment</h1>
 

@@ -1,3 +1,4 @@
+import ProductSidebar from '@/components/Product/ProductSidebar';
 import ProductGridWithSidebar from '@/components/ProductGridWithSidebar';
 export default function HomePage() {
   return (
@@ -20,6 +21,7 @@ export default function HomePage() {
       </section>
 
       {/* Product Grid & Sidebar */}
+      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
         <h2 className="text-xl sm:text-2xl font-bold mb-6">🛍 Featured Products</h2>
         <ProductGridWithSidebar />

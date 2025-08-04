@@ -6,13 +6,13 @@ import { RootState } from '@/components/store/store/store';
 import ProductSidebar from '@/components/Product/ProductSidebar';
 import ProductCard from '@/components/Product/ProductCard';
 import Spinner from './common/spinner';
+
 type Product = {
   id: number;
   name: string;
   description: string;
   price: string;
   image?: string;
-  
 };
 
 export default function ProductGridWithSidebar() {
@@ -20,16 +20,17 @@ export default function ProductGridWithSidebar() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Build query and fetch products when filters change
+  // Fetch products when category or search changes
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
         const params = new URLSearchParams();
+
         if (searchTerm) params.append('search', searchTerm);
         selectedCategories.forEach(id => params.append('category', id.toString()));
 
-        const res = await axios.get(`http://localhost:8000/api/products/?${params}`);
+        const res = await axios.get(`http://localhost:8000/api/products/?${params.toString()}`);
         setProducts(res.data.results || res.data);
       } catch (err) {
         console.error('Failed to fetch products:', err);
@@ -41,23 +42,25 @@ export default function ProductGridWithSidebar() {
     fetchProducts();
   }, [selectedCategories, searchTerm]);
 
-return (
-  <div className="flex flex-col gap-6 p-6">
-    {/* Sidebar on top */}
-    <ProductSidebar />
+  return (
+    <div className="flex flex-col gap-6 p-4 sm:p-6">
+      {/* Sidebar (mobile collapsible inside ProductSidebar) */}
+      <ProductSidebar />
 
-    {/* Product Grid below */}
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-      {loading && <Spinner/> ? (
-        <p className="text-green-700">Loading...</p>
-      ) : products.length ? (
-        products.map(product => (
-          <ProductCard key={product.id} product={product} />
-        ))
-      ) : (
-        <p className="text-green-700">No products found.</p>
-      )}
+      {/* Product Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {loading ? (
+          <div className="col-span-full flex justify-center items-center">
+            <Spinner />
+          </div>
+        ) : products.length > 0 ? (
+          products.map(product => (
+            <ProductCard key={product.id} product={product} />
+          ))
+        ) : (
+          <p className="col-span-full text-green-700 text-center">No products found.</p>
+        )}
+      </div>
     </div>
-  </div>
-);
+  );
 }

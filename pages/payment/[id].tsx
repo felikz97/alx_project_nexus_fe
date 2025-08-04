@@ -31,9 +31,9 @@ export default function PaymentPage() {
 
   return (
     <div className="max-w-xl mx-auto p-6">
-      <button
+    <button
         onClick={() => window.history.back()}
-        className="text-blue-600 hover:underline mb-2"
+        className="text-green-800 hover:bg-yellow-200 mb-2 bg-yellow-100"
       >
         ← Move Back
       </button>
