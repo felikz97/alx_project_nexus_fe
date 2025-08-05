@@ -3,11 +3,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface ProductFilterState {
   selectedCategories: number[];
   searchTerm: string;
+  sortOrder: 'asc' | 'desc';
 }
 
 const initialState: ProductFilterState = {
   selectedCategories: [],
   searchTerm: '',
+  sortOrder: 'asc',
 };
 
 const productSlice = createSlice({
@@ -25,12 +27,25 @@ const productSlice = createSlice({
     setSearchTerm(state, action: PayloadAction<string>) {
       state.searchTerm = action.payload;
     },
+    toggleSortOrder(state) {
+      state.sortOrder = state.sortOrder === 'asc' ? 'desc' : 'asc';
+    },
+    setSortOrder(state, action: PayloadAction<'asc' | 'desc'>) {
+      state.sortOrder = action.payload;
+    },
     clearFilters(state) {
       state.selectedCategories = [];
       state.searchTerm = '';
+      state.sortOrder = 'asc';
     },
   },
 });
 
-export const { toggleCategory, setSearchTerm, clearFilters } = productSlice.actions;
+export const {
+  toggleCategory,
+  setSearchTerm,
+  toggleSortOrder,
+  setSortOrder,
+  clearFilters,
+} = productSlice.actions;
 export default productSlice.reducer;
