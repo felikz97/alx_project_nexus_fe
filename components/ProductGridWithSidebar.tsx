@@ -37,41 +37,33 @@ export default function ProductGridWithSidebar() {
    * Runs every time filters (category, search, sort) change.
    */
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        setLoading(true);
+  const fetchProducts = async () => {
+    try {
+      setLoading(true);
+      const params = new URLSearchParams();
 
-        const params = new URLSearchParams();
-
-        // Apply search term filter
-        if (searchTerm) {
-          params.append('search', searchTerm);
-        }
-
-        // Apply category filters
-        selectedCategories.forEach((id) =>
-          params.append('category', id.toString())
-        );
-
-        // Apply sort order by price
-        params.append('ordering', sortOrder === 'asc' ? 'price' : '-price');
-
-        // API call
-        const response = await axios.get(
-          `http://localhost:8000/api/products/?${params.toString()}`
-        );
-
-        // Support pagination (`results`) or direct list
-        setProducts(response.data.results || response.data);
-      } catch (error) {
-        console.error('Failed to fetch products:', error);
-      } finally {
-        setLoading(false);
+      if (searchTerm && searchTerm.trim() !== '') {
+        params.append('search', searchTerm.trim());
       }
-    };
 
-    fetchProducts();
-  }, [selectedCategories, searchTerm, sortOrder]);
+      selectedCategories.forEach(id => {
+        params.append('categories', id.toString());
+      });
+
+      const res = await axios.get(`http://localhost:8000/api/products/?${params.toString()}`);
+      setProducts(res.data.results || res.data);
+    } catch (err) {
+      console.error('Failed to fetch products:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchProducts();
+}, [selectedCategories, searchTerm]);
+
+
+    
 
   return (
     <div className="flex flex-col gap-6 p-4 sm:p-6">

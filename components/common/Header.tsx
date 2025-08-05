@@ -85,7 +85,7 @@ export default function Header() {
           <input
             type="text"
             placeholder="Search products..."
-            className="w-full px-3 py-2 rounded border border-green-300 text-green-900"
+            className="w-64 px-3 py-2 rounded border border-green-300 text-green-900"
           />
         </div>
 
