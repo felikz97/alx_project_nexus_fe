@@ -1,86 +1,50 @@
-// /pages/admin/index.tsx
-import { useEffect, useState } from 'react';
-import { getUsers, updateUser } from '../../utils/api';
+//admin panel home: To list all users
+// pages/admin/index.tsx
+// pages/admin/index.tsx
 
-type User = {
-  id: number;
-  username: string;
-  email: string;
-  is_seller: boolean;
-  is_staff: boolean;
-};
+import Link from 'next/link';
+import AdminLayout from '@/components/admin/AdminLayout';
+import { useAdminAuth } from '@/hooks/useAdminAuth';
+import Spinner from '@/components/common/spinner';
 
-export default function AdminDashboard() {
-  const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState(true);
+export default function AdminHome() {
+  const { loading, authorized } = useAdminAuth();
 
-  useEffect(() => {
-    getUsers()
-      .then(res => setUsers(res.data))
-      .catch(err => console.error('Error loading users:', err))
-      .finally(() => setLoading(false));
-  }, []);
+  // Show loading spinner while checking access
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <Spinner />
+      </div>
+    );
+  }
 
-  const handleToggleRole = (userId: number, field: 'is_seller' | 'is_staff') => {
-    const user = users.find(u => u.id === userId);
-    if (!user) return;
+  // If not authorized, don't render the page (redirect is handled inside the hook)
+  if (!authorized) return null;
 
-    const updated = { ...user, [field]: !user[field] };
-
-    updateUser(userId, updated)
-      .then(() => {
-        setUsers(prev =>
-          prev.map(u => (u.id === userId ? { ...u, [field]: !u[field] } : u))
-        );
-      })
-      .catch(err => alert('Update failed'));
-  };
-
+  // Render admin dashboard
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
+    <AdminLayout>
+      <h1 className="text-3xl font-bold mb-10 text-center">Admin Dashboard</h1>
 
-      {loading ? (
-        <p>Loading users...</p>
-      ) : (
-        <table className="min-w-full border border-gray-300">
-          <thead>
-            <tr className="bg-green-700 text-white">
-              <th className="p-2">ID</th>
-              <th className="p-2">Username</th>
-              <th className="p-2">Email</th>
-              <th className="p-2">Seller</th>
-              <th className="p-2">Staff</th>
-              <th className="p-2">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map(user => (
-              <tr key={user.id} className="border-t border-gray-300">
-                <td className="p-2">{user.id}</td>
-                <td className="p-2">{user.username}</td>
-                <td className="p-2">{user.email}</td>
-                <td className="p-2 text-center">{user.is_seller ? '✅' : '❌'}</td>
-                <td className="p-2 text-center">{user.is_staff ? '✅' : '❌'}</td>
-                <td className="p-2 flex gap-2">
-                  <button
-                    className="px-2 py-1 bg-blue-600 text-white rounded"
-                    onClick={() => handleToggleRole(user.id, 'is_seller')}
-                  >
-                    Toggle Seller
-                  </button>
-                  <button
-                    className="px-2 py-1 bg-purple-600 text-white rounded"
-                    onClick={() => handleToggleRole(user.id, 'is_staff')}
-                  >
-                    Toggle Staff
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-    </div>
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <DashboardCard href="/admin/users" label="Manage Users" />
+        <DashboardCard href="/admin/products" label="Manage Products" />
+        <DashboardCard href="/admin/orders" label="Manage Orders" />
+        <DashboardCard href="/admin/stores" label="Manage Stores" />
+      </section>
+    </AdminLayout>
+  );
+}
+
+// 🔁 Reusable dashboard card
+function DashboardCard({ href, label }: { href: string; label: string }) {
+  return (
+    <Link
+      href={href}
+      className="block bg-white text-center p-6 border rounded-xl shadow hover:shadow-lg transition-all duration-200 ease-in-out hover:scale-[1.02]"
+    >
+      <span className="text-lg font-semibold text-gray-700">{label}</span>
+    </Link>
   );
 }

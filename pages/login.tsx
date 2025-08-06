@@ -29,7 +29,7 @@ export default function LoginPage() {
       localStorage.setItem('access', res.data.access);
       localStorage.setItem('refresh', res.data.refresh);
       toast.success('Logged in successfully!');
-      setTimeout(() => router.push('/'), 1000);
+      setTimeout(() => router.push('/products'), 300);
     } catch (err) {
       setError('Invalid credentials');
       toast.error('Login failed. Check username and password.');
@@ -90,6 +90,13 @@ export default function LoginPage() {
           <Link href="/users/reset-password" className="text-green-700 hover:underline">
             Forgot password?
           </Link>
+          <div className='text-green-700 hover:underline bg-yellow-500'>
+            <span>
+            <Link href="/admin/login" className="text-sm text-green-800 hover:underline">
+            Admin Login
+            </Link>
+            </span>
+          </div>
         </div>
       </div>
     </div>
