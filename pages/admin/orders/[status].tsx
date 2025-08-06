@@ -23,6 +23,7 @@ export default function OrdersByStatus() {
   const { authorized, loading: authLoading } = useAdminAuth();
 
   useEffect(() => {
+    console.log("Status param:", status);
     const fetchOrders = async () => {
       if (!status || Array.isArray(status)) return;
 
@@ -82,7 +83,7 @@ export default function OrdersByStatus() {
                   <td className="border p-3">{order.id}</td>
                   <td className="border p-3">{order.customer_name}</td>
                   <td className="border p-3 capitalize">{order.status}</td>
-                  <td className="border p-3">${order.total_price.toFixed(2)}</td>
+                  <td className="border p-3">Ksh {order.total_price.toFixed(2)}</td>
                 </tr>
               ))}
             </tbody>

@@ -6,7 +6,6 @@ import api from '@/utils/axiosInstance';
 import Image from 'next/image';
 import classNames from 'classnames';
 import CartDrawer from '@/components/cart/CartDrawer';
-import { useUserAuth } from '@/hooks/UserAuthContext';
 
 export default function Header() {
   const { isAuthenticated, logout } = useAuth();
