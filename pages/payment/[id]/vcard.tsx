@@ -24,7 +24,7 @@ export default function CardPayment() {
     const fetchOrder = async () => {
       const token = localStorage.getItem('access');
       try {
-        const res = await axios.get(`http://localhost:8000/api/orders/orders/${id}/`, {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/orders/orders/${id}/`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setOrder(res.data);

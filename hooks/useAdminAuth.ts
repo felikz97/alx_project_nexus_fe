@@ -18,7 +18,7 @@ export function useAdminAuth() {
       }
 
       try {
-        const res = await axios.get('http://localhost:8000/api/users/me/', {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/users/me/`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

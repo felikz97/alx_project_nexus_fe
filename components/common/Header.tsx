@@ -45,8 +45,8 @@ export default function Header() {
         {/* Logo */}
         <div className="flex items-center gap-2">
           <Link href="/" className="text-2xl font-bold flex items-center gap-2">
-            <Image src="/assets/icons/home.svg" alt="Home" width={28} height={28} />
-            E-Shop Nexus
+            <Image src="/assets/logo.png" className="rounded-lg" alt="Home" width={38} height={38} />
+            Nexus E-commerce
           </Link>
 
           {/* Hamburger Menu (Mobile) */}
@@ -77,7 +77,7 @@ export default function Header() {
         )}>
           <Link href="/" className="hover:bg-yellow-100 px-3 py-1 rounded hover:text-green-700">Home</Link>
           <Link href="/products" className="hover:bg-yellow-100 px-3 py-1 rounded hover:text-green-700">Products</Link>
-          <Link href="/about" className="hover:bg-yellow-100 px-3 py-1 rounded hover:text-green-700">About Us</Link>
+          <Link href="/about" className="hover:bg-yellow-100 px-3 py-1 rounded hover:text-green-700">About</Link>
         </nav>
 
         {/* Search Bar */}
@@ -111,7 +111,7 @@ export default function Header() {
               >
                 {user?.image ? (
                   <img
-                    src={user.image.startsWith('http') ? user.image : `http://localhost:8000${user.image}`}
+                    src={user.image.startsWith('http') ? user.image : `${process.env.NEXT_PUBLIC_API_BASE_URL}${user.image}`}
                     alt="Profile"
                     className="w-8 h-8 rounded-full object-cover border"
                   />
@@ -124,12 +124,12 @@ export default function Header() {
                     className="rounded-full border"
                   />
                 )}
-                <span className="text-sm font-semibold">User</span>
+                <span className="text-sm font-semibold">account</span>
               </button>
 
               {/* Dropdown */}
               {showMenu && (
-                <div className="absolute right-0 top-full mt-2 w-56 bg-yellow-100 text-green-900 shadow-xl rounded-lg border border-green-200 z-[100]">
+                <div className="absolute right-0 top-full mt-2 w-56 bg-green-200 text-green-900 shadow-xl rounded-lg border border-green-200 z-[100]">
                   {user?.Full_Name && (
                     <div className="px-4 py-2 border-b border-green-100 text-sm font-bold text-green-700">
                       {user.Full_Name}

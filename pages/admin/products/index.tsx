@@ -34,7 +34,7 @@ type Product = {
      */
     const fetchProducts = async () => {
         try {
-        const response = await axios.get('http://localhost:8000/api/products/', {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/products/`, {
             headers: {
             Authorization: `Bearer ${token}`,
             },

@@ -36,7 +36,7 @@ export default function OrdersPage() {
       }
 
       try {
-        const response = await axios.get('http://localhost:8000/api/orders/', {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/orders/`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -47,7 +47,7 @@ export default function OrdersPage() {
 
         setOrders(orderResults);
       } catch (err: any) {
-        console.error('❌ Full error response:', err.response || err.message || err);
+        console.error('Full error response:', err.response || err.message || err);
         setError('Failed to load orders. Please try again later.');
       } finally {
         setLoading(false);
@@ -143,7 +143,7 @@ export default function OrdersPage() {
                         try {
                           const token = localStorage.getItem('access');
                           await axios.patch(
-                            `http://localhost:8000/api/orders/orders/${order.id}/`,
+                            `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/orders/orders/${order.id}/`,
                             { status: 'cancelled' },
                             {
                               headers: {

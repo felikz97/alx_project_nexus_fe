@@ -16,7 +16,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     if (!token) return;
 
     try {
-      const res = await axios.get('http://localhost:8000/api/cart/items/', {
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/cart/items/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

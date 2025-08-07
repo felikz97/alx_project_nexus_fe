@@ -32,6 +32,7 @@ export default function AdminHome() {
         <DashboardCard href="/admin/products" label="Manage Products" />
         <DashboardCard href="/admin/orders" label="Manage Orders" />
         <DashboardCard href="/admin/stores" label="Manage Stores" />
+        <DashboardCard href="/admin/products/categories" label="Manage Categories" />
       </section>
     </AdminLayout>
   );

@@ -62,7 +62,7 @@ export default function EditProductPage() {
         if (product.image) {
           const imgUrl = product.image.startsWith('http')
             ? product.image
-            : `http://localhost:8000${product.image}`;
+            : `${process.env.NEXT_PUBLIC_API_BASE_URL}${product.image}`;
           setPreviewUrl(imgUrl);
         }
       } catch (err) {
@@ -108,10 +108,10 @@ export default function EditProductPage() {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
-      setMessage('✅ Product updated.');
+      setMessage(' Product updated.');
       setTimeout(() => router.push('/'), 1500);
     } catch (err) {
-      setMessage('❌ Update failed.');
+      setMessage('Update failed.');
     }
   };
 
@@ -119,10 +119,10 @@ export default function EditProductPage() {
     if (!confirm('Are you sure you want to delete this product?')) return;
     try {
       await api.delete(`/api/products/${id}/`);
-      alert('✅ Product deleted.');
+      alert(' Product deleted.');
       router.push('/');
     } catch (err) {
-      alert('❌ Failed to delete product.');
+      alert(' Failed to delete product.');
     }
   };
 

@@ -14,7 +14,7 @@ export default function StoreManagement() {
   const [stores, setStores] = useState<Store[]>([]);
 
   const fetchStores = async () => {
-    const res = await axios.get('http://localhost:8000/api/stores/');
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/stores/`);
     setStores(res.data);
   };
 
@@ -23,7 +23,7 @@ export default function StoreManagement() {
   }, []);
 
   const toggleStoreStatus = async (id: number) => {
-    await axios.post(`http://localhost:8000/api/stores/${id}/toggle_status/`);
+    await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/stores/${id}/toggle_status/`);
     fetchStores();
   };
 

@@ -1,9 +1,13 @@
 // /components/Product/ProductSidebar.tsx
 
+/**
+ * ProductSidebar
+ * Renders the filter drawer toggle and price sorting dropdown.
+ * Also fetches categories from the backend.
+ */
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { RootState } from '@/components/store/store/store';
 import {
   toggleCategory,
@@ -12,78 +16,85 @@ import {
 import CategoryFilterDrawer from '@/components/filters/CategoryFilterDrawer';
 import { Filter } from 'lucide-react';
 
-// Local Category type
+
 type Category = {
   id: number;
   name: string;
 };
 
-/**
- * ProductSidebar
- * Renders the filter drawer toggle and price sorting dropdown.
- * Also fetches categories from the backend.
- */
 export default function ProductSidebar() {
-  // Local state for fetched categories and drawer visibility
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const dispatch = useDispatch();
 
-  // Redux state
   const selectedCategories = useSelector(
     (state: RootState) => state.product.selectedCategories
   );
   const sortOrder = useSelector((state: RootState) => state.product.sortOrder);
-  const dispatch = useDispatch();
 
-  /**
-   * Fetch categories from the API when the component mounts.
-   */
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  // Fetch categories on mount
   useEffect(() => {
-    axios
-      .get('http://localhost:8000/api/categories/')
-      .then(res => setCategories(res.data.results || res.data))
-      .catch(err => console.error('Failed to load categories:', err))
+    const fetchCategories = async () => {
+      setLoading(true);
+      try {
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/categories/`
+        );
+        setCategories(res.data.results || res.data);
+      } catch (err) {
+        console.error('Failed to load categories:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategories();
   }, []);
 
-  /**
-   * Convert select dropdown values to correct sort order format
-   * and dispatch to redux store.
-   */
+  // Handle sort option change
   const handleSortChange = (value: string) => {
-    const mapped =
-      value === 'price_asc' ? 'asc' : value === 'price_desc' ? 'desc' : 'asc';
+    const mapped = value === 'price_asc' ? 'asc' : 'desc';
     dispatch(setSortOrder(mapped));
   };
 
   return (
     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-4">
-      {/* Filter Button Section */}
-      <div className="flex items-center gap-2">
+      {/* Filter Toggle */}
+      <div className="flex items-center gap-3">
         <h2 className="text-lg font-semibold text-green-800">Filters</h2>
         <button
-          className="flex items-center gap-2 px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800"
           onClick={() => setDrawerOpen(true)}
+          className="flex items-center gap-2 px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800 shadow focus:outline-none focus:ring-2 focus:ring-green-600 transition"
         >
           <Filter className="w-4 h-4" />
-          Filter
+          <span>Filter</span>
         </button>
       </div>
 
-      {/* Sort Order Dropdown */}
-      <select
-        className="border border-green-700 rounded px-3 py-2 text-green-800 focus:outline-none"
-        value={sortOrder === 'asc' ? 'price_asc' : 'price_desc'}
-        onChange={(e) => handleSortChange(e.target.value)}
-      >
-        <option value="price_asc">Price: Low → High</option>
-        <option value="price_desc">Price: High → Low</option>
-      </select>
+      {/* Sort Dropdown */}
+      <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+        <label htmlFor="sort" className="text-sm font-medium text-green-800">
+          Sort by:
+        </label>
+        <select
+          id="sort"
+          value={sortOrder === 'asc' ? 'price_asc' : 'price_desc'}
+          onChange={(e) => handleSortChange(e.target.value)}
+          className="border border-green-700 rounded px-3 py-2 text-green-800 focus:outline-none focus:ring-2 focus:ring-green-600"
+        >
+          <option value="price_asc">Price: Low → High</option>
+          <option value="price_desc">Price: High → Low</option>
+        </select>
+      </div>
 
-      {/* Filter Drawer Component */}
+      {/* Filter Drawer */}
       <CategoryFilterDrawer
         isOpen={drawerOpen}
         onClose={() => setDrawerOpen(false)}
         categories={categories}
+        loading={loading}
         selectedCategoryIds={selectedCategories}
         onChange={(id) => dispatch(toggleCategory(id))}
       />

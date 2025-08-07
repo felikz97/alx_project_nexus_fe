@@ -26,7 +26,7 @@ export default function MPesaPayment() {
     const fetchOrder = async () => {
       const token = localStorage.getItem('access');
       try {
-        const res = await axios.get(`http://localhost:8000/api/orders/orders/${id}/`, {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/orders/orders/${id}/`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setOrder(res.data);
@@ -54,7 +54,7 @@ export default function MPesaPayment() {
 
       // Placeholder: POST to your backend's M-Pesa payment endpoint
       const res = await axios.post(
-        `http://localhost:8000/api/mpesa/stk/`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/mpesa/stk/`,
         {
           order_id: order?.id,
           phone_number: phone,
@@ -64,9 +64,9 @@ export default function MPesaPayment() {
         }
       );
 
-      setMessage('✅ Payment prompt sent. Complete it on your phone.');
+      setMessage(' Payment prompt sent. Complete it on your phone.');
     } catch (err: any) {
-      setMessage('❌ Failed to initiate M-Pesa payment.');
+      setMessage(' Failed to initiate M-Pesa payment.');
     } finally {
       setSubmitting(false);
     }

@@ -34,7 +34,7 @@ export default function ProductSearchPage() {
   //  Fetch Categories
   const fetchCategories = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/api/categories");
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/categories`);
       setCategories(response.data.results || response.data);
     } catch (error) {
       console.error("Category fetch error:", error);
@@ -49,7 +49,7 @@ export default function ProductSearchPage() {
       if (searchTerm) params.search = searchTerm;
       if (categoryIds.length > 0) params.category = categoryIds;
 
-      const response = await axios.get("http://localhost:8000/api/products", { params });
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/products`, { params });
 
       setProducts(response.data.results || response.data);
     } catch (error: any) {
@@ -149,7 +149,7 @@ export default function ProductSearchPage() {
               <h2 className="text-lg font-semibold text-gray-800">{product.name}</h2>
               <p className="text-gray-600 text-sm flex-grow">{product.description}</p>
               <div className="mt-4 flex justify-between items-center">
-                <span className="text-green-600 font-bold text-md">Ksh{product.price}</span>
+                <span className="text-green-600 font-bold text-md">Ksh {product.price}</span>
                 
                 <Link href={`/products/${product.id}`}>
                 <a className="bg-green-300 text-green-800 text-sm px-3 py-1 rounded hover:bg-green-700">

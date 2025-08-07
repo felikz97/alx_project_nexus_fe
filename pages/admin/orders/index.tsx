@@ -29,7 +29,7 @@ type Order = {
     const fetchOrders = async () => {
         try {
         const token = localStorage.getItem('accessToken');
-        const res = await axios.get('http://localhost:8000/api/orders/', {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/orders/`, {
             headers: {
             Authorization: `Bearer ${token}`,
             },

@@ -14,7 +14,7 @@ export default function DeleteCartItemButton({ itemId, onSuccess }: Props) {
 
     try {
       //  Make the DELETE request to the API
-      await axios.delete(`http://localhost:8000/api/cart/items/${itemId}/`, {
+      await axios.delete(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/cart/items/${itemId}/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

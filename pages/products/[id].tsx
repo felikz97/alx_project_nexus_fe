@@ -30,7 +30,7 @@ export default function ProductDetailPage() {
     if (!id) return;
 
     axios
-      .get(`http://localhost:8000/api/products/${id}/`)
+      .get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/products/${id}/`)
       .then(res => setProduct(res.data))
       .catch(err => console.error('Error loading product:', err))
       .finally(() => setLoading(false));
@@ -41,7 +41,7 @@ export default function ProductDetailPage() {
 
   const imageUrl = product.image?.startsWith('http')
     ? product.image
-    : `http://localhost:8000${product.image}`;
+    : `${process.env.NEXT_PUBLIC_API_BASE_URL}${product.image}`;
 
   return (
     <div className="max-w-4xl mx-auto p-6 flex flex-col md:flex-row gap-6">

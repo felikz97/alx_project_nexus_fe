@@ -14,6 +14,7 @@ interface CategoryFilterDrawerProps {
   categories: Category[];
   selectedCategoryIds: number[];
   onChange: (categoryId: number) => void;
+  loading?: boolean;
 }
 
 export default function CategoryFilterDrawer({
@@ -22,9 +23,11 @@ export default function CategoryFilterDrawer({
   categories,
   selectedCategoryIds,
   onChange,
+  loading = false,
 }: CategoryFilterDrawerProps) {
   const drawerRef = useRef<HTMLDivElement>(null);
 
+  // Close drawer on outside click
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (drawerRef.current && !drawerRef.current.contains(e.target as Node)) {
@@ -39,7 +42,7 @@ export default function CategoryFilterDrawer({
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [isOpen]);
+  }, [isOpen, onClose]);
 
   return (
     <AnimatePresence>
@@ -52,9 +55,10 @@ export default function CategoryFilterDrawer({
             animate={{ opacity: 0.5 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
+            aria-hidden="true"
           />
 
-          {/* Drawer */}
+          {/* Slide-in Drawer */}
           <motion.div
             ref={drawerRef}
             className="fixed left-0 top-0 h-full w-[90%] sm:w-72 bg-white z-50 p-6 overflow-y-auto shadow-lg"
@@ -62,28 +66,36 @@ export default function CategoryFilterDrawer({
             animate={{ x: 0 }}
             exit={{ x: '-100%' }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+            role="dialog"
+            aria-modal="true"
           >
             <h3 className="text-lg font-bold mb-4 text-green-800">Filter by Category</h3>
 
-            <ul className="space-y-3">
-              {categories.map((category) => {
-                const isSelected = selectedCategoryIds.includes(category.id);
-                return (
-                  <li key={category.id}>
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={isSelected}
-                        onChange={() => onChange(category.id)}
-                        className="accent-green-600"
-                      />
-                      <span className="text-green-700">{category.name}</span>
-                    </label>
-                  </li>
-                );
-              })}
-            </ul>
+            {/* Category List */}
+            {loading ? (
+              <p className="text-sm text-gray-500">Loading categories...</p>
+            ) : (
+              <ul className="space-y-3">
+                {categories.map((category) => {
+                  const isSelected = selectedCategoryIds.includes(category.id);
+                  return (
+                    <li key={category.id}>
+                      <label className="flex items-center gap-2 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={isSelected}
+                          onChange={() => onChange(category.id)}
+                          className="accent-green-600"
+                        />
+                        <span className="text-green-700">{category.name}</span>
+                      </label>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
 
+            {/* Apply Button */}
             <button
               onClick={onClose}
               className="mt-6 w-full bg-green-700 text-white py-2 rounded hover:bg-green-800"

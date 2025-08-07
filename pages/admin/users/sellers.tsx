@@ -17,7 +17,7 @@ export default function SellerApproval() {
   useEffect(() => {
     const token = localStorage.getItem('token');
 
-    axios.get('http://localhost:8000/api/sellers/', {
+    axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/sellers/`, {
       headers: { Authorization: `Bearer ${token}` }
     })
     .then(res => setUsers(res.data))
@@ -26,7 +26,7 @@ export default function SellerApproval() {
 
   const toggleSeller = async (id: number) => {
     const token = localStorage.getItem('token');
-    await axios.post(`http://localhost:8000/api/sellers/${id}/toggle_seller/`, {}, {
+    await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/sellers/${id}/toggle_seller/`, {}, {
       headers: { Authorization: `Bearer ${token}` }
     });
 

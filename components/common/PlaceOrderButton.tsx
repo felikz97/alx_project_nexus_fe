@@ -15,7 +15,7 @@ export default function PlaceOrderButton() {
 
     try {
       const response = await axios.post(
-        'http://localhost:8000/api/orders/place/',
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/orders/place/`,
         {}, // If your API expects additional payload, add it here
         {
           headers: {

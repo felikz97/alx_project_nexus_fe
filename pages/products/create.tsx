@@ -115,7 +115,7 @@ export default function CreateProductPage() {
       <h1 className="text-2xl font-bold mb-4 text-green-800">Add New Product</h1>
 
       {error && <p className="text-red-600 mb-4">{error}</p>}
-      {success && <p className="text-green-700 mb-4">✅ Product created successfully!</p>}
+      {success && <p className="text-green-700 mb-4">Product created successfully!</p>}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <input name="name" value={form.name} onChange={handleChange} placeholder="Product Name" className="w-full p-2 border rounded" required />

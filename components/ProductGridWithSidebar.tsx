@@ -50,7 +50,7 @@ export default function ProductGridWithSidebar() {
         params.append('categories', id.toString());
       });
 
-      const res = await axios.get(`http://localhost:8000/api/products/?${params.toString()}`);
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/products/?${params.toString()}`);
       setProducts(res.data.results || res.data);
     } catch (err) {
       console.error('Failed to fetch products:', err);
@@ -77,11 +77,18 @@ export default function ProductGridWithSidebar() {
           <div className="col-span-full flex justify-center items-center">
             <Spinner />
           </div>
-        ) : products.length > 0 ? (
-          // Render product cards
-          products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))
+                ) : products.length > 0 ? (
+          // Sort then render product cards
+          [...products]
+            .sort((a, b) => {
+              const priceA = parseFloat(a.price || '0');
+              const priceB = parseFloat(b.price || '0');
+              return sortOrder === 'asc' ? priceA - priceB : priceB - priceA;
+            })
+            .map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))
+
         ) : (
           // Show fallback if no products found
           <p className="col-span-full text-green-700 text-center">

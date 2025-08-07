@@ -21,7 +21,7 @@ export default function AddToCartButton({ productId }: AddToCartButtonProps) {
     try {
       
       const response = await axios.post(
-        'http://localhost:8000/api/cart/items/add/',
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/cart/items/add/`,
         { product_id: productId, quantity: 1  },
         {
           headers: {

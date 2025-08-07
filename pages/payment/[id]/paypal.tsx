@@ -34,12 +34,12 @@ export default function PayPalPayment() {
     const fetchOrder = async () => {
       const token = localStorage.getItem('access');
       try {
-        const res = await axios.get(`http://localhost:8000/api/orders/orders/${id}/`, {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/orders/orders/${id}/`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setOrder(res.data);
       } catch (err) {
-        console.error('❌ Failed to fetch order:', err);
+        console.error('Failed to fetch order:', err);
       } finally {
         setLoading(false);
       }
@@ -72,12 +72,12 @@ export default function PayPalPayment() {
       },
       onApprove: (_data: any, actions: any) => {
         return actions.order.capture().then((details: any) => {
-          alert(`✅ Payment completed by ${details.payer.name.given_name}`);
-          console.log('✅ Payment details:', details);
+          alert(` Payment completed by ${details.payer.name.given_name}`);
+          console.log(' Payment details:', details);
         });
       },
       onError: (err: any) => {
-        console.error('❌ PayPal error:', err);
+        console.error(' PayPal error:', err);
       },
     }).render('#paypal-button');
   }, [order, sdkReady]);
@@ -102,9 +102,12 @@ export default function PayPalPayment() {
         <p>📦 <strong>Items:</strong> {itemCount}</p>
         <p>💰 <strong>Total:</strong> ${order.total_price}</p>
       </div>
-
+      <div className='bg-blue-300'>
+        <p className='text-green-600 bg-white text-sm'>
+        Wait for payment button or Reload the page if payment is not visible
+        </p>
+      </div>
       <div id="paypal-button" className="mt-4" />
-
       <Script
         src={`https://www.paypal.com/sdk/js?client-id=Ad77Gp3-O87gNMm7ZC0eTDPrWxK3JIgafFcAZhP79GpEKseJqlPQRBbwNnRUj1EktQ3doFMDe7qGPHsI`}
         strategy="afterInteractive"

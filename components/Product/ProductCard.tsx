@@ -14,7 +14,7 @@ export default function ProductCard({ product }: { product: Product }) {
   // Fallback to full URL if image is a relative path
   const imageUrl = product.image?.startsWith('http')
     ? product.image
-    : `http://localhost:8000${product.image}`;
+    : `${process.env.NEXT_PUBLIC_API_BASE_URL}${product.image}`;
 
   return (
     <Link href={`/products/${product.id}`}>

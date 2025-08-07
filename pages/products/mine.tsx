@@ -31,7 +31,7 @@ export default function MyCatalogsPage() {
         });
         setProducts(res.data.results || res.data);
       } catch (err) {
-        console.error('❌ Failed to load products:', err);
+        console.error(' Failed to load products:', err);
       } finally {
         setLoading(false);
       }
@@ -60,7 +60,7 @@ export default function MyCatalogsPage() {
         {products.map(product => {
           const imageUrl = product.image?.startsWith('http')
             ? product.image
-            : `http://localhost:8000${product.image}`;
+            : `${process.env.NEXT_PUBLIC_API_BASE_URL}${product.image}`;
 
           return (
             <div key={product.id} className="bg-white p-4 shadow rounded border">

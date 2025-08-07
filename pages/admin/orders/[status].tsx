@@ -30,7 +30,7 @@ export default function OrdersByStatus() {
       try {
         setLoading(true);
         const token = localStorage.getItem('accessToken');
-        const res = await axios.get(`http://localhost:8000/api/orders/?status=${status}`, {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/orders/?status=${status}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

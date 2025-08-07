@@ -33,7 +33,7 @@ export default function CartDrawer({
     if (!token) return;
 
     try {
-      const res = await axios.get('http://localhost:8000/api/cart/items/', {
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/cart/items/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setCartItems(res.data);
@@ -48,7 +48,7 @@ export default function CartDrawer({
 
     try {
       await axios.patch(
-        `http://localhost:8000/api/cart/items/${id}/`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/cart/items/${id}/`,
         { quantity },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -112,7 +112,7 @@ export default function CartDrawer({
                 const { product, quantity } = item;
                 const imageUrl = product.image?.startsWith('http')
                   ? product.image
-                  : `http://localhost:8000${product.image}`;
+                  : `${process.env.NEXT_PUBLIC_API_BASE_URL}${product.image}`
                 const subtotal = parseFloat(product.price) * quantity;
 
                 return (

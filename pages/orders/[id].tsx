@@ -41,7 +41,7 @@ export default function OrderDetailPage() {
       }
 
       try {
-        const res = await axios.get(`http://localhost:8000/api/orders/${id}/`, {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/orders/${id}/`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setOrder(res.data);
@@ -76,7 +76,7 @@ export default function OrderDetailPage() {
         {order.items.map((item) => {
           const imageUrl = item.product.image?.startsWith('http')
             ? item.product.image
-            : `http://localhost:8000${item.product.image}`;
+            : `${process.env.NEXT_PUBLIC_API_BASE_URL}${item.product.image}`;
           return (
             <div
               key={item.id}

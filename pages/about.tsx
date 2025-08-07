@@ -6,7 +6,7 @@ export default function AboutPage() {
     return (
         <>
         <Head>
-            <title>How It Works | E-Shop</title>
+            <title>How It Works | Nexus E-commerce</title>
         </Head>
 
         <section className="bg-white py-12 px-4 sm:px-6 lg:px-8">
@@ -18,7 +18,7 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
             >
             <h1 className="text-4xl font-bold text-center text-green-800 mb-10">
-                How to Use E-Shop
+                How to Use Nexus E-commerce
             </h1>
 
             <div className="grid gap-12 sm:grid-cols-1 md:grid-cols-2">
@@ -59,7 +59,7 @@ export default function AboutPage() {
                 Why Shop With Us?
                 </h2>
                 <p className="max-w-2xl mx-auto text-gray-700 mb-6">
-                At E-Shop, we prioritize convenience, quality, and speed. 
+                At Nexus E-commerce, we prioritize convenience, quality, and speed. 
                 Whether you’re buying essentials or the latest trends, we 
                 ensure a smooth, secure, and satisfying shopping journey.
                 </p>
