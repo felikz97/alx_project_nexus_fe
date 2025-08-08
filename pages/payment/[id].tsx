@@ -40,7 +40,11 @@ export default function PaymentPage() {
       <h1 className="text-2xl font-bold text-green-800 mb-6">
         💳 Choose Payment Method
       </h1>
-
+      <div className='text-red-400'>
+        <h3>
+        Current available payment method is Paybal. Other methods are coming soon
+        </h3>
+      </div>
       <div className="space-y-4">
         {PAYMENT_METHODS.map((method) => (
           <Link

@@ -27,7 +27,7 @@ export default function RegisterPage() {
     setLoading(true);
 
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/register/`, form);
+      await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/users/register/`, form);
       toast.success('Account created! Redirecting to login...');
       setTimeout(() => router.push('/login'), 1500);
     } catch (err) {

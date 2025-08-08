@@ -94,7 +94,7 @@ export default function Header() {
           {/* Cart */}
           <Link href="/cart" className="relative flex items-center gap-1 hover:underline">
             <Image src="/assets/icons/cart.svg" alt="Cart" width={24} height={24} />
-            <span>Cart</span>
+            <span >Cart</span>
             {cartCount > 0 && (
               <span className="absolute -top-2 -right-3 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
                 {cartCount}
@@ -163,8 +163,8 @@ export default function Header() {
             </div>
           ) : (
             <>
-              <Link href="/register" className="hover:underline">Signup</Link>
-              <Link href="/login" className="hover:underline">Login</Link>
+              <Link href="/register" className="hover:bg-yellow-100 hover:text-green-600 rounded-lg pr-3 pl-3">Signup</Link>
+              <Link href="/login" className="hover:bg-yellow-100 hover:text-green-600 bg-green-100 rounded-md text-green-700 pr-3 pl-3">Login</Link>
             </>
           )}
         </div>

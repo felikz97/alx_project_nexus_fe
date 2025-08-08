@@ -58,12 +58,11 @@ type User = {
             usersData = res.data;
             } else if (Array.isArray(res.data.results)) {
             usersData = res.data.results;
-            } else if (res.data.id) {
-            usersData = [res.data]; // fallback for single-user response
+            } else if (res.data && typeof res.data === 'object' && res.data.id) {
+            usersData = [res.data];
             } else {
-            console.error('Unexpected API format:', res.data);
-            setError('Unexpected data format');
-            return;
+            console.warn('Unexpected API format:', res.data);
+            usersData = []; // fallback to empty list instead of throwing error
             }
 
             setUsers(usersData);

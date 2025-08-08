@@ -34,18 +34,20 @@ export default function AdminLoginPage() {
         setLoading(true);
 
         try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/token/`, {
-            username,
-            password,
-        });
+            const response = await axios.post(
+                `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/token/`,
+                { username, password }
+                );
+                        
 
         const { access, refresh } = response.data;
         localStorage.setItem('accessToken', access);
         localStorage.setItem('refreshToken', refresh);
 
-        const userRes = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/users/me/`, {
-            headers: { Authorization: `Bearer ${access}` },
-        });
+        const userRes = await axios.get(
+            `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/users/me/`,
+            { headers: { Authorization: `Bearer ${access}` } }
+            );
 
         const user = userRes.data;
 
