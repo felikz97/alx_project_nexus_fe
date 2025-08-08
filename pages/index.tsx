@@ -2,8 +2,15 @@
 import ProductSidebar from '@/components/Product/ProductSidebar';
 import ProductGridWithSidebar from '@/components/ProductGridWithSidebar';
 import { motion } from 'framer-motion';
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
 
 export default function HomePage() {
+  const router = useRouter()
+
+  useEffect(() => {
+    router.replace('/home')
+  }, [router])
   return (
     <div className="text-green-900 bg-yellow-50 min-h-screen">
       {/* Hero Section */}
