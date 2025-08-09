@@ -75,7 +75,7 @@ export default function Header() {
           "flex-col sm:flex-row sm:flex gap-4 mt-4 sm:mt-0 sm:gap-6 w-full sm:w-auto",
           mobileNavOpen ? "flex" : "hidden sm:flex"
         )}>
-          <Link href="/" className="hover:bg-yellow-100 px-3 py-1 rounded hover:text-green-700">Home</Link>
+          <Link href="/home" className="hover:bg-yellow-100 px-3 py-1 rounded hover:text-green-700">Home</Link>
           <Link href="/products" className="hover:bg-yellow-100 px-3 py-1 rounded hover:text-green-700">Products</Link>
           <Link href="/about" className="hover:bg-yellow-100 px-3 py-1 rounded hover:text-green-700">About</Link>
         </nav>
