@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛍️ E-Commerce Frontend (Next.js + Tailwind CSS)
 
-## Getting Started
+A **Next.js** frontend for an e-commerce platform with features for browsing products, searching, filtering, adding to cart, placing orders, making payments, and tracking orders.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🌍 Real-World Application
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This project simulates a **real-world scenario** where developers must balance functional requirements with **user experience considerations**.  
+By completing this project, participants will gain hands-on experience with:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Building scalable, maintainable frontends using modern technologies.
+- Optimizing performance for high-traffic scenarios through pagination and infinite scrolling.
+- Ensuring accessibility and responsiveness for diverse user bases.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 📖 Overview
 
-To learn more about Next.js, take a look at the following resources:
+This case study focuses on creating a **dynamic e-commerce product catalog** where users can **browse, filter, and sort products seamlessly**.  
+The project emphasizes **key industry practices** such as API integration, responsive design, and advanced UI/UX enhancements for a production-ready experience.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🎯 Project Goals
 
-## Deploy on Vercel
+The primary objectives of the e-commerce product catalog are:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. **API Integration** – Learn to fetch and display data from APIs dynamically.
+2. **User Convenience** – Implement filtering and sorting to improve product discovery.
+3. **Enhanced Experience** – Develop a responsive, user-friendly interface with seamless navigation and optimized performance.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🛠️ Technologies Used
+
+- **Next.js (React)** – Component-based UI framework
+- **Redux** – For efficient state management
+- **TypeScript** – For type safety and maintainable code
+- **Tailwind CSS** – For modern, responsive UI design
+- **Axios** – For API calls
+- **Lucide-react** – For clean icons
+- **Framer Motion** – For animations
+
+---
+
+## 🚀 Key Features
+
+### 1️⃣ API Data Integration
+- Fetch and display product data dynamically from a backend API.
+- Handle loading states and errors gracefully.
+
+### 2️⃣ Filtering and Sorting
+- **Category Filtering** – View products by selected categories.
+- **Price Sorting** – Sort by ascending or descending price.
+- **Multi-Criteria Filters** – Combine multiple filters for refined results.
+
+### 3️⃣ Pagination & Infinite Scrolling
+- **Pagination** – View products in pages.
+- **Infinite Scrolling** – Load more products automatically as the user scrolls.
+
+### 4️⃣ Responsive Design
+- Fully optimized for desktop, tablet, and mobile screens.
+
+---
+
+## 📂 Folder Structure
+
+#### 📬 By:-
+*Want to collaborate or have questions*
+
+##### Felix Kipkemoi
+##### Email: felikz.kipkemoi@gmail.com
+##### GitHub: @felikz97
+##### LinkedIn: https://www.linkedin.com/in/felix-kipkemoi-a272b12b8/
