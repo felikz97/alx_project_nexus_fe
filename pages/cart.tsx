@@ -36,7 +36,13 @@ export default function CartPage() {
   };
 
   useEffect(() => {
-    fetchCart();
+    const token = localStorage.getItem('access');
+    if (!token) {
+      alert(' Please log in to view your cart.');
+      router.push('/login');
+    } else {
+      fetchCart();
+    }
   }, [router]);
 
   const totalQuantity = cartItems.reduce((sum, item) => sum + item.quantity, 0);
@@ -47,7 +53,10 @@ export default function CartPage() {
 
   return (
     <div className="max-w-4xl mx-auto p-4 sm:p-6">
-      <button onClick={() => window.history.back()} className="text-green-800 hover:bg-yellow-200 mb-2 bg-yellow-100">
+      <button
+        onClick={() => window.history.back()}
+        className="text-green-800 hover:bg-yellow-200 mb-2 bg-yellow-100"
+      >
         ← Move Back
       </button>
       <h1 className="text-2xl font-bold text-green-800 mb-6">🛒 Your Cart</h1>
@@ -77,7 +86,13 @@ export default function CartPage() {
                 >
                   <div className="w-full sm:w-24 h-48 sm:h-24 relative flex-shrink-0">
                     {product.image ? (
-                      <Image src={imageUrl} alt={product.name} layout="fill" objectFit="cover" className="rounded" />
+                      <Image
+                        src={imageUrl}
+                        alt={product.name}
+                        layout="fill"
+                        objectFit="cover"
+                        className="rounded"
+                      />
                     ) : (
                       <div className="w-full h-full bg-gray-100 flex items-center justify-center text-gray-500">
                         No Image
@@ -88,8 +103,12 @@ export default function CartPage() {
                   <div className="flex-1 flex flex-col justify-between w-full">
                     <div className="flex flex-col gap-1">
                       <p className="font-semibold text-green-800">{product.name}</p>
-                      <p className="text-green-700">Price: Ksh {parseFloat(product.price).toFixed(2)}</p>
-                      <p className="text-green-900 font-bold">Subtotal: Ksh {itemTotal.toFixed(2)}</p>
+                      <p className="text-green-700">
+                        Price: Ksh {parseFloat(product.price).toFixed(2)}
+                      </p>
+                      <p className="text-green-900 font-bold">
+                        Subtotal: Ksh {itemTotal.toFixed(2)}
+                      </p>
                     </div>
 
                     <div className="flex items-center gap-2 mt-3">
