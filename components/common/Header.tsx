@@ -105,7 +105,7 @@ export default function Header() {
                   <Link href="/profile" className="flex items-center gap-2 px-4 py-2 hover:bg-green-100">Update Profile</Link>
                   <button
                     onClick={logout}
-                    className="w-full flex items-center gap-2 px-4 py-2 text-left hover:bg-green-100"
+                    className="w-full flex text-red-500 items-center gap-2 px-4 py-2 text-left hover:bg-green-100"
                   >
                     Logout
                   </button>
