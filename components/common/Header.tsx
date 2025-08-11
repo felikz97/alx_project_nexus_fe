@@ -99,14 +99,24 @@ export default function Header() {
                       {user.Full_Name}
                     </div>
                   )}
-                  <Link href="/orders" className="flex items-center gap-2 px-4 py-2 hover:bg-green-100">My Orders</Link>
-                  <Link href="/products/create" className="flex items-center gap-2 px-4 py-2 hover:bg-green-100">Add Product</Link>
-                  <Link href="/products/mine" className="flex items-center gap-2 px-4 py-2 hover:bg-green-100">My Catalogs</Link>
-                  <Link href="/profile" className="flex items-center gap-2 px-4 py-2 hover:bg-green-100">Update Profile</Link>
+                  <Link href="/orders" className="flex items-center gap-2 px-4 py-2 hover:bg-green-100">
+                    <Image src="/assets/icons/orders.svg" alt="Orders" width={20} height={20} />
+                    My Orders
+                  </Link>
+                  <Link href="/products/create" className="flex items-center gap-2 px-4 py-2 hover:bg-green-100">
+                    <Image src="/assets/icons/add.svg" alt="Add Product" width={20} height={20} />
+                    Add Product</Link>
+                  <Link href="/products/mine" className="flex items-center gap-2 px-4 py-2 hover:bg-green-100">
+                    <Image src="/assets/icons/catalog.svg" alt="My Catalogs" width={20} height={20} />
+                    My Catalogs</Link>
+                  <Link href="/profile" className="flex items-center gap-2 px-4 py-2 hover:bg-green-100">
+                    <Image src="/assets/icons/settings.svg" alt="Update Profile" width={20} height={20} />
+                    Update Profile</Link>
                   <button
                     onClick={logout}
-                    className="w-full flex text-red-500 items-center gap-2 px-4 py-2 text-left hover:bg-green-100"
+                    className="w-full flex text-red-500 items-center gap-2 px-4 py-2 text-left hover:bg-green-100 hover:text-red-600"
                   >
+                    <Image src="/assets/icons/logout.svg" alt="Logout" width={20} height={20} />
                     Logout
                   </button>
                 </div>
