@@ -1,3 +1,4 @@
+// hooks/UserAuthContext
 import { createContext, useContext, useEffect, useState } from 'react';
 
 interface AuthContextType {

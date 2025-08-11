@@ -1,12 +1,14 @@
-// pages/login.tsx : to allow users/customers login their accounts
 import { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
 import { FaUser, FaLock } from "react-icons/fa";
+import { useAuth } from '@/context/AuthContext'; // ✅ use our global auth context
+
 export default function LoginPage() {
   const router = useRouter();
+  const { login } = useAuth(); //  get login function from context
   const [form, setForm] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -26,11 +28,16 @@ export default function LoginPage() {
 
     try {
       setLoading(true);
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/login/`, form);
-      localStorage.setItem('access', res.data.access);
-      localStorage.setItem('refresh', res.data.refresh);
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/login/`,
+        form
+      );
+
+      // Instead of directly setting localStorage, update global context
+      login(res.data.access, res.data.refresh);
+
       toast.success('Logged in successfully!');
-      setTimeout(() => router.push('/products'), 300);
+      router.push('/products'); // no need for setTimeout anymore
     } catch (err) {
       setError('Invalid credentials');
       toast.error('Login failed. Check username and password.');
@@ -100,9 +107,7 @@ export default function LoginPage() {
           </button>
         </form>
 
-
         <div className="mt-6 space-y-2 text-sm text-center text-gray-700">
-          
           <p>
             Don’t have an account?{' '}
             <Link href="/register" className="text-green-700 hover:underline">
