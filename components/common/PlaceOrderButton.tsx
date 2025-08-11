@@ -1,10 +1,11 @@
+// components/common/PlaceOrderButton.tsx
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useCart } from '../cart/CartContext';
 
 export default function PlaceOrderButton() {
   const router = useRouter();
-  const { updateCart } = useCart();
+  const { updateCart, clearCart } = useCart(); // new function in context
 
   const handlePlaceOrder = async () => {
     const token = localStorage.getItem('access');
@@ -16,7 +17,7 @@ export default function PlaceOrderButton() {
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/orders/place/`,
-        {}, // If your API expects additional payload, add it here
+        {},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -27,14 +28,14 @@ export default function PlaceOrderButton() {
 
       if (response.status === 201 || response.status === 200) {
         alert(' Order placed successfully!');
-        updateCart(); // Optional: refresh cart count
-        router.push('/orders'); // or a confirmation page
+        clearCart(); // instantly set cart count to 0 & empty cart
+        router.push('/orders'); // or confirmation page
       } else {
-        alert('Something went wrong. Please try again.');
+        alert('⚠ Something went wrong. Please try again.');
       }
     } catch (error) {
-      console.error(' Place order error:', error);
-      alert('Failed to place order. Please try later.');
+      console.error('Place order error:', error);
+      alert(' Failed to place order. Please try later.');
     }
   };
 
