@@ -81,7 +81,7 @@ export default function Header() {
                   className="w-8 h-8 rounded-full object-cover border"
                 />
               ) : (
-                <Image src="/assets/icons/user.svg" alt="User" width={38} height={35} className="rounded-full border" />
+                <Image src="/assets/icons/user.svg" alt="User" width={38} height={38} className="rounded-full border" />
               )}
 
               {/* Menu icon triggers dropdown */}
