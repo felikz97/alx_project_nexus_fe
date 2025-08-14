@@ -69,15 +69,23 @@ export default function Header() {
           {mobileNavOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
 
-        {/* Nav Links */}
+       {/* Nav Links */}
         <nav
           className={`${
             mobileNavOpen ? 'flex' : 'hidden sm:flex'
-          } flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 absolute sm:static top-full left-0 w-full sm:w-auto bg-green-800 sm:bg-transparent shadow-lg sm:shadow-none transition-all`}
+          } flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 absolute sm:static top-full left-0 w-full sm:w-auto bg-green-800 sm:bg-transparent shadow-lg sm:shadow-none transition-all p-4 sm:p-0`}
         >
           <Link href="/" className="hover:bg-yellow-100 px-3 py-2 rounded hover:text-green-700 transition">Home</Link>
           <Link href="/products" className="hover:bg-yellow-100 px-3 py-2 rounded hover:text-green-700 transition">Products</Link>
           <Link href="/about" className="hover:bg-yellow-100 px-3 py-2 rounded hover:text-green-700 transition">About</Link>
+
+          {/* Show auth buttons in mobile menu if not logged in */}
+          {!isAuthenticated && (
+            <div className="flex sm:hidden flex-col gap-2 mt-2">
+              <Link href="/register" className="hover:bg-yellow-100 hover:text-green-600 rounded-lg px-3 py-2 transition">Signup</Link>
+              <Link href="/login" className="hover:bg-yellow-100 hover:text-green-600 bg-green-100 rounded-md text-green-700 px-3 py-2 transition">Login</Link>
+            </div>
+          )}
         </nav>
 
         {/* Right Controls */}

@@ -20,19 +20,43 @@ export default function Footer() {
 
         {/* Social Media Icons */}
         <div className="flex gap-4 items-center">
-          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
-            <Image src="/assets/facebook.png" alt="Facebook" className="rounded-64" width={30} height={30} />
-          </a>
-          <a href="https://x.com/FelikzK254" target="_blank" rel="noopener noreferrer">
-            <Image src="/assets/twitter.svg" alt="Twitter" width={30} height={30} />
-          </a>
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
-            <Image src="/assets/instagram.png" alt="Instagram" width={30} height={30} />
-          </a>
-          <a href="https://www.linkedin.com/in/felix-kipkemoi-a272b12b8/" target="_blank" rel="noopener noreferrer">
-            <Image src="/assets/linkedin.svg" alt="LinkedIn" width={30} height={30} />
-          </a>
+          <Image
+            src="/assets/facebook.png"
+            alt="Facebook"
+            width={30}
+            height={30}
+            className="rounded-full cursor-pointer hover:opacity-80 transition"
+            onClick={() => window.open('https://facebook.com', '_blank', 'noopener,noreferrer')}
+          />
+
+          <Image
+            src="/assets/twitter.svg"
+            alt="Twitter"
+            width={30}
+            height={30}
+            className="cursor-pointer hover:opacity-80 transition"
+            onClick={() => window.open('https://x.com/FelikzK254', '_blank', 'noopener,noreferrer')}
+          />
+
+          <Image
+            src="/assets/instagram.png"
+            alt="Instagram"
+            width={30}
+            height={30}
+            className="cursor-pointer hover:opacity-80 transition"
+            onClick={() => window.open('https://instagram.com', '_blank', 'noopener,noreferrer')}
+          />
+
+          <Image
+            src="/assets/linkedin.svg"
+            alt="LinkedIn"
+            width={30}
+            height={30}
+            className="cursor-pointer hover:opacity-80 transition"
+            onClick={() => window.open('https://www.linkedin.com/in/felix-kipkemoi-a272b12b8/', '_blank', 'noopener,noreferrer')}
+          />
         </div>
+
 
         {/* Navigation Links */}
         <div className="flex flex-wrap justify-center gap-4 text-sm">

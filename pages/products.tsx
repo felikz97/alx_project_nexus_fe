@@ -151,11 +151,12 @@ export default function ProductSearchPage() {
               <div className="mt-4 flex justify-between items-center">
                 <span className="text-green-600 font-bold text-md">Ksh {product.price}</span>
                 
-                <Link href={`/products/${product.id}`}>
-                <a className="bg-green-300 text-green-800 text-sm px-3 py-1 rounded hover:bg-green-700">
+                <Link
+                  href={`/products/${product.id}`}
+                  className="bg-green-300 text-green-800 text-sm px-3 py-1 rounded hover:bg-green-700"
+                >
                   View
-                </a>
-              </Link>
+                </Link>
               </div>
             </div>
           ))}

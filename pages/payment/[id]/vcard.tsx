@@ -40,7 +40,7 @@ export default function CardPayment() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setMessage('✅ Payment submitted (simulated). You can now mark this order as paid.');
+    setMessage(' Payment submitted (simulated). You can now mark this order as paid.');
   };
 
   if (loading) return <p className="p-6">Loading...</p>;

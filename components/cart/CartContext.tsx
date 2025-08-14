@@ -1,11 +1,11 @@
 // components/cart/CartContext.tsx
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import axios from 'axios';
+import { useAuth } from '@/context/AuthContext';
 
 interface CartItem {
   id: number;
   quantity: number;
-  // optionally product details
 }
 
 interface CartContextType {
@@ -18,31 +18,44 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
+  const { isAuthenticated } = useAuth();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
+  //  Safe API URL fallback
+  const API_BASE =
+    process.env.NEXT_PUBLIC_API_BASE_URL?.trim() || window.location.origin;
+
   const fetchCart = async () => {
     const token = localStorage.getItem('access');
-    if (!token) return;
+
+    if (!token) {
+      setCartItems([]);
+      return;
+    }
 
     try {
-      const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/cart/items/`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const url = `${API_BASE}/api/cart/items/`;
+      console.log('Fetching cart from:', url);
+
+      const res = await axios.get(url, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
       setCartItems(res.data);
     } catch (err) {
-      console.error(' Failed to fetch cart:', err);
+      console.error('Failed to fetch cart:', err);
+      setCartItems([]);
     }
   };
 
   const clearCart = () => {
-    setCartItems([]); // instantly clear in UI
+    setCartItems([]);
   };
 
   useEffect(() => {
     fetchCart();
-  }, []);
+  }, [isAuthenticated]);
 
   return (
     <CartContext.Provider value={{ cartItems, cartCount, updateCart: fetchCart, clearCart }}>

@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import Link from 'next/link';
 
 export default function ResetPasswordPage() {
   const [email, setEmail] = useState('');
@@ -62,9 +63,9 @@ export default function ResetPasswordPage() {
 
         <p className="text-sm text-center mt-4 text-gray-600">
           Remember your password?{' '}
-          <a href="/login" className="text-green-700 hover:underline">
+          <Link href="/login" className="text-green-700 hover:underline">
             Login here
-          </a>
+          </Link>
         </p>
       </div>
     </div>
